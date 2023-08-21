@@ -12,15 +12,15 @@ const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const closeBtn = document.querySelector(".close");
-const btnSubmit = document.querySelector(".btn-submit");
 const form = document.querySelector("#form");
-
+const congrats = document.querySelector(".congrats");
+const closeCongrats = document.querySelector(".closeCongrats");
 // launch modal event
 modalBtn.forEach(btn => btn.addEventListener("click", launchModal));
 
 // close modal event
 closeBtn.addEventListener("click", closeModal);
-
+closeCongrats.addEventListener("click", closeCongratsModal);
 // launch modal form
 function launchModal() {
     modalbg.style.display = "block";
@@ -29,6 +29,11 @@ function launchModal() {
 // close modal form
 function closeModal() {
     modalbg.style.display = "none";
+}
+
+//close modal inform inscription ok
+function closeCongratsModal() {
+    congrats.style.display = "none";
 }
 
 // submit form
@@ -46,6 +51,8 @@ function validate(e) {
     const locationRadios = document.querySelectorAll("input[name='location']");
     const checkBoxOne = document.querySelector("#checkbox1");
     const formData = document.querySelectorAll(".formData");
+    const btnSubmit = document.querySelector(".btn-submit");
+    const congrats = document.querySelector(".congrats");
 
     // consition d'envoie
     if (!firstName.value || firstName.value.length < 2) {
@@ -101,4 +108,9 @@ function validate(e) {
         formData[6].dataset.errorVisible = true;
         formData[6].dataset.error = "Vous devez accepter les conditions d'utilisation";
     }
+
+    btnSubmit.addEventListener("click", () => {
+        closeModal();
+        congrats.style.display = "block";
+    });
 }

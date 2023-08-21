@@ -296,7 +296,7 @@ input[data-error]::after {
   left: 21%;
   top: 19%;
 }
-.close {
+.closeCongrats {
   position: absolute;
   right: 15px;
   top: 15px;
@@ -306,8 +306,8 @@ input[data-error]::after {
   cursor: pointer;
   transform: scale(0.7);
 }
-.close:before,
-.close:after {
+.closeCongrats:before,
+.closeCongrats:after {
   position: absolute;
   left: 15px;
   content: " ";
@@ -315,10 +315,10 @@ input[data-error]::after {
   width: 3px;
   background-color: #fff;
 }
-.close:before {
+.closeCongrats:before {
   transform: rotate(45deg);
 }
-.close:after {
+.closeCongrats:after {
   transform: rotate(-45deg);
 }
 .btn-submit,
@@ -527,3 +527,48 @@ footer {
   }
 }
 
+.congrats {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 379px;
+  top: 185px;
+  height: 30%;
+  width: 60%;
+  overflow: unset;
+  background-color: black;
+  text-align: center;
+  border: 5px solid white;
+  padding-top: 92px;
+  font-size: 48px;
+  color: white;
+}
+
+.closeCongrats {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  width: 32px;
+  height: 32px;
+  opacity: 1;
+  cursor: pointer;
+  transform: scale(0.7);
+}
+
+.closeCongrats:before,
+.closeCongrats:after {
+  position: absolute;
+  left: 15px;
+  content: " ";
+  height: 33px;
+  width: 3px;
+  background-color: #fff;
+}
+
+.closeCongrats:before {
+  transform: rotate(45deg);
+}
+
+.closeCongrats:after {
+  transform: rotate(-45deg);
+}
