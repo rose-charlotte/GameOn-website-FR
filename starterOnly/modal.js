@@ -32,11 +32,9 @@ const footer = document.querySelector("footer");
 
 // event
 modalBtn.forEach(btn => btn.addEventListener("click", launchModal));
-
 closeBtn.addEventListener("click", closeModal);
 closeCongrats.addEventListener("click", closeCongratsModal);
 closeCongratsButton.addEventListener("click", closeCongratsModal);
-
 form.addEventListener("submit", validate);
 
 // launch modal form
@@ -49,7 +47,7 @@ function launchModal() {
 
 // close modal form
 function closeModal() {
-    heroSection.style.display = "grid";
+    heroSection.style.display = "block";
     topNav.style.display = "block";
     footer.style.display = "block";
     modalbg.style.display = "none";
@@ -58,7 +56,7 @@ function closeModal() {
 //close modal inform inscription ok
 function closeCongratsModal() {
     congrats.style.display = "none";
-    heroSection.style.display = "grid";
+    heroSection.style.display = "block";
     topNav.style.display = "block";
     footer.style.display = "block";
 }
@@ -167,26 +165,21 @@ const validatedLocationRadio = () => {
         formData[5].dataset.error = "Veuillez selectionner une ville";
         return false;
     } else {
+        formData[5].dataset.errorVisible = false;
+        formData[5].dataset.error = "";
         return true;
     }
-    //else {
-    //     formData[5].dataset.errorVisible = false;
-    //     formData[5].dataset.error = "";
-    //     return true;
-    // }
 };
 
 //checkbox: nous vérifions que la checkbox obligatoire est bien coché
 const validatedCheckboxOne = () => {
-    // checkBoxOne.onblur = () => {
-    //     formData[5].dataset.errorVisible = false;
-    //     formData[5].dataset.error = "";
-    // };
     if (!checkBoxOne.checked) {
         formData[6].dataset.errorVisible = true;
         formData[6].dataset.error = "Vous devez accepter les conditions d'utilisation";
         return false;
     } else {
+        formData[6].dataset.errorVisible = false;
+        formData[6].dataset.error = "";
         return true;
     }
 };
@@ -195,7 +188,7 @@ const validatedCheckboxOne = () => {
 function validate(e) {
     e.preventDefault();
 
-    // consition d'envoie
+    // consition d'envoie: nous appellons chaque fonction qui valide les input
     validatedFirstname();
     validatedLastname();
     validatedMail();
@@ -204,6 +197,7 @@ function validate(e) {
     validatedLocationRadio();
     validatedCheckboxOne();
 
+    //si toute les fonctions de validation sont à true, alors on valide le formulaire et on renvoie vers le message de validation
     if (
         validatedFirstname() &&
         validatedLastname() &&
