@@ -166,7 +166,6 @@ main {
   height: 100%;
   width: 100%;
   overflow: auto;
-  background-color: rgba(26, 39, 156, 0.4);
 }
 
 .content {
@@ -296,7 +295,7 @@ input[data-error]::after {
   left: 21%;
   top: 19%;
 }
-.closeCongrats {
+.close {
   position: absolute;
   right: 15px;
   top: 15px;
@@ -306,8 +305,8 @@ input[data-error]::after {
   cursor: pointer;
   transform: scale(0.7);
 }
-.closeCongrats:before,
-.closeCongrats:after {
+.close:before,
+.close:after {
   position: absolute;
   left: 15px;
   content: " ";
@@ -315,14 +314,15 @@ input[data-error]::after {
   width: 3px;
   background-color: #fff;
 }
-.closeCongrats:before {
+.close:before {
   transform: rotate(45deg);
 }
-.closeCongrats:after {
+.close:after {
   transform: rotate(-45deg);
 }
 .btn-submit,
-.btn-signup {
+.btn-signup,
+.btn-close {
   background: #fe142f;
   display: block;
   margin: 0 auto;
@@ -478,6 +478,7 @@ footer {
   padding-right: 2vw;
   margin: 0 20px;
 }
+
 @media screen and (max-width: 800px) {
   .hero-section {
     display: block;
@@ -526,33 +527,52 @@ footer {
     opacity: 1;
   }
 }
-
+.bground-congrats{
+    display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      overflow: auto;
+}
 .congrats {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 379px;
-  top: 185px;
-  height: 30%;
-  width: 60%;
-  overflow: unset;
-  background-color: black;
+    margin: 5% auto;
+    width: 100%;
+    max-width: 500px;
+    animation-name: modalopen;
+    animation-duration: var(--modal-duration);
+    background: #232323;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    color: #fff;
+    padding-top: 10px;
+    height: 100%;
+}
+.congrats-text{
+  position: relative;
+  top:361px;
+  font-size: 36px;
   text-align: center;
-  border: 5px solid white;
-  padding-top: 92px;
-  font-size: 48px;
-  color: white;
+}
+
+@media screen and (max-width: 800px){
+  .congrats{
+    width: 300px;
+  }
 }
 
 .closeCongrats {
   position: absolute;
-  right: 15px;
-  top: 15px;
-  width: 32px;
-  height: 32px;
-  opacity: 1;
-  cursor: pointer;
-  transform: scale(0.7);
+    right: 15px;
+    top: 15px;
+    width: 32px;
+    height: 32px;
+    opacity: 1;
+    cursor: pointer;
+    transform: scale(0.7);
 }
 
 .closeCongrats:before,
@@ -572,3 +592,9 @@ footer {
 .closeCongrats:after {
   transform: rotate(-45deg);
 }
+.btn-close{
+  position: absolute;
+  top: 790px;
+  left: 152px;
+}
+
