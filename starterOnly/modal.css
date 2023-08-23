@@ -166,7 +166,6 @@ main {
   height: 100%;
   width: 100%;
   overflow: auto;
-  background-color: rgba(26, 39, 156, 0.4);
 }
 
 .content {
@@ -479,6 +478,7 @@ footer {
   padding-right: 2vw;
   margin: 0 20px;
 }
+
 @media screen and (max-width: 800px) {
   .hero-section {
     display: block;
@@ -527,38 +527,52 @@ footer {
     opacity: 1;
   }
 }
-
+.bground-congrats{
+    display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      overflow: auto;
+}
 .congrats {
-  display: none;
-  
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: center;
-  position: fixed;
-  z-index: 1;
-  left: 500px;
-  top: 40px;
-  height: 850px;
-  width: 536px;
-  overflow: unset;
-  background-color: black;
+    margin: 5% auto;
+    width: 100%;
+    max-width: 500px;
+    animation-name: modalopen;
+    animation-duration: var(--modal-duration);
+    background: #232323;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    color: #fff;
+    padding-top: 10px;
+    height: 100%;
+}
+.congrats-text{
+  position: relative;
+  top:361px;
+  font-size: 36px;
   text-align: center;
-  border: 5px solid white;
-  padding-top: 92px;
-  font-size: 48px;
-  color: white;
+}
+
+@media screen and (max-width: 800px){
+  .congrats{
+    width: 300px;
+  }
 }
 
 .closeCongrats {
   position: absolute;
-  right: 15px;
-  top: 15px;
-  width: 32px;
-  height: 32px;
-  opacity: 1;
-  cursor: pointer;
-  transform: scale(0.7);
+    right: 15px;
+    top: 15px;
+    width: 32px;
+    height: 32px;
+    opacity: 1;
+    cursor: pointer;
+    transform: scale(0.7);
 }
 
 .closeCongrats:before,
@@ -580,5 +594,7 @@ footer {
 }
 .btn-close{
   position: absolute;
-  top: 780px;
+  top: 790px;
+  left: 152px;
 }
+

@@ -13,9 +13,9 @@ const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const closeBtn = document.querySelector(".close");
 const form = document.querySelector("#form");
-const congrats = document.querySelector(".congrats");
+const congrats = document.querySelector(".bground-congrats");
 const closeCongrats = document.querySelector(".closeCongrats");
-
+const closeCongratsButton = document.querySelector(".btn-close");
 const firstName = document.querySelector("#first");
 const lastName = document.querySelector("#last");
 const email = document.querySelector("#email");
@@ -25,7 +25,6 @@ const locationRadios = document.querySelectorAll("input[name='location']");
 const checkBoxOne = document.querySelector("#checkbox1");
 
 const btnSubmit = document.querySelector(".btn-submit");
-const closeCongratsButton = document.querySelector(".btn-close");
 
 const heroSection = document.querySelector(".hero-section");
 const topNav = document.querySelector(".topnav");
@@ -42,11 +41,17 @@ form.addEventListener("submit", validate);
 
 // launch modal form
 function launchModal() {
+    heroSection.style.display = "none";
+    topNav.style.display = "none";
+    footer.style.display = "none";
     modalbg.style.display = "block";
 }
 
 // close modal form
 function closeModal() {
+    heroSection.style.display = "grid";
+    topNav.style.display = "block";
+    footer.style.display = "block";
     modalbg.style.display = "none";
 }
 
@@ -213,7 +218,7 @@ function validate(e) {
             heroSection.style.display = "none";
             topNav.style.display = "none";
             footer.style.display = "none";
-            congrats.style.display = "flex";
+            congrats.style.display = "block";
         });
     }
 }
