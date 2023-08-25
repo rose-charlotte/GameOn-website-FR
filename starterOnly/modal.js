@@ -39,15 +39,19 @@ form.addEventListener("submit", validate);
 
 // launch modal form
 function launchModal() {
+    if (window.screen.width < 800) {
+        topNav.style.display = "block";
+    } else {
+        topNav.style.display = "none";
+    }
     heroSection.style.display = "none";
-    topNav.style.display = "none";
     footer.style.display = "none";
     modalbg.style.display = "block";
 }
 
 // close modal form
 function closeModal() {
-    heroSection.style.display = "block";
+    heroSection.style.display = "grid";
     topNav.style.display = "block";
     footer.style.display = "block";
     modalbg.style.display = "none";
@@ -56,7 +60,7 @@ function closeModal() {
 //close modal inform inscription ok
 function closeCongratsModal() {
     congrats.style.display = "none";
-    heroSection.style.display = "block";
+    heroSection.style.display = "grid";
     topNav.style.display = "block";
     footer.style.display = "block";
 }
@@ -209,8 +213,12 @@ function validate(e) {
     ) {
         btnSubmit.addEventListener("click", () => {
             closeModal();
+            if (window.screen.width < 800) {
+                topNav.style.display = "block";
+            } else {
+                topNav.style.display = "none";
+            }
             heroSection.style.display = "none";
-            topNav.style.display = "none";
             footer.style.display = "none";
             congrats.style.display = "block";
         });

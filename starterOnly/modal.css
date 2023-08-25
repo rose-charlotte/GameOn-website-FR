@@ -192,6 +192,7 @@ main {
   position: relative;
   color: #fff;
   padding-top: 10px;
+  top: 45px;
 }
 
 .modal-body {
@@ -492,10 +493,16 @@ footer {
 }
 
 @media screen and (max-width: 800px) {
+  .content{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
   .hero-section {
-    display: block;
-    box-shadow: unset;
-    min-height: unset;
+    
+      box-shadow: unset;
+  min-height: unset;
   }
   .hero-content {
     background: #fff;
@@ -521,6 +528,11 @@ footer {
     font-size: 13px;
     margin-top: 17px;
   }
+
+  .hero-img{
+    grid-column: 1/4;
+    padding-left: 10px;
+  }
   .hero-img img {
     border-radius: 10px;
   }
@@ -528,6 +540,7 @@ footer {
     display: block;
     margin: 32px auto 10px;
     padding: 12px 35px;
+    grid-column: 2;
   }
   .copyrights {
     margin-top: 20px;
@@ -567,6 +580,7 @@ footer {
     color: #fff;
     padding-top: 10px;
     height: 100%;
+    top: 45px;
 }
 .congrats-text{
   position: relative;
@@ -575,11 +589,7 @@ footer {
   text-align: center;
 }
 
-@media screen and (max-width: 800px){
-  .congrats{
-    width: 300px;
-  }
-}
+
 
 .closeCongrats {
   position: absolute;
@@ -615,3 +625,23 @@ footer {
   left: 152px;
 }
 
+@media screen and (max-width: 800px) {
+  .congrats {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .congrats-text {
+    top: 200px;
+  }
+
+  .btn-close {
+    top: 530px;
+    left: 120px;
+    font-size: 14px;
+    width: 140px;
+    padding-left: 49px;
+  }
+}
