@@ -541,6 +541,8 @@ footer {
     margin: 32px auto 10px;
     padding: 12px 35px;
     grid-column: 2;
+    font-size: 14px;
+    white-space: nowrap;
   }
   .copyrights {
     margin-top: 20px;
