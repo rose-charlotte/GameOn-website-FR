@@ -66,7 +66,7 @@ function closeCongratsModal() {
 }
 
 //validation de chaque input:
-
+// fonction pour factoriser chaque validation d'input:
 const validateField = (validation, fieldId, messageOverride) => {
     const isValid = validation;
 
@@ -128,6 +128,13 @@ const validateCheckboxOne = () => {
     validateField(checkBoxOne.checked, "checkbox1");
 };
 
+// On accroche un listener "blur" sur les input qui permet de vérifier au fure et à mesure qu'ils sont valides afin d'afficher ou de cacher l'erreur pour l'utilisateur.
+firstName.addEventListener("blur", validateFirstname);
+lastName.addEventListener("blur", validateLastname);
+email.addEventListener("blur", validateMail);
+birthdate.addEventListener("blur", validateBirthDate);
+quantity.addEventListener("blur", validateQuantity);
+
 // fonction qui va gérer la validation et l'envoie du fromulaire
 function validate(e) {
     e.preventDefault();
@@ -154,9 +161,3 @@ function validate(e) {
         congrats.style.display = "block";
     }
 }
-
-firstName.addEventListener("blur", validateFirstname);
-lastName.addEventListener("blur", validateLastname);
-email.addEventListener("blur", validateMail);
-birthdate.addEventListener("blur", validateBirthDate);
-quantity.addEventListener("blur", validateQuantity);
