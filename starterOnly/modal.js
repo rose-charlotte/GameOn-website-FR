@@ -67,44 +67,37 @@ function closeCongratsModal() {
 
 //validation de chaque input:
 
-//Prénom
-const validatedFirstname = () => {
-    //Dès que l'input n'est plus en focus le message d'erreur et le contour rouge disparait.
-    firstName.onblur = () => {
-        formData[0].dataset.errorVisible = false;
-        formData[0].dataset.error = "";
-    };
-    if (!firstName.value || firstName.value.length < 2) {
-        formData[0].dataset.errorVisible = true;
-        formData[0].dataset.error = "Veuillez entrer 2 caractères ou plus pour le champ du prénom.";
-        return false;
-    } else {
-        return true;
+const validateField = (validation, fieldId, messageOverride) => {
+    const isValid = validation;
+
+    if (messageOverride) {
+        document.querySelector(`.formData:has(#${fieldId})`).dataset.error = messageOverride;
     }
+
+    document.querySelector(`.formData:has(#${fieldId})`).dataset.errorVisible = !isValid;
+    return isValid;
 };
 
-//Nom
-const validatedLastname = () => {
-    lastName.onblur = () => {
-        formData[1].dataset.errorVisible = false;
-        formData[1].dataset.error = "";
-    };
+//Prénom
+const validateFirstname = () => validateField(firstName.value && firstName.value.length >= 2, "first");
 
+//Nom
+const validateLastname = () => {
     if (!lastName.value || lastName.value.length < 2) {
         formData[1].dataset.errorVisible = true;
         formData[1].dataset.error = "Veuillez entrer 2 caractères ou plus pour le champ du nom.";
+
         return false;
-    } else {
-        return true;
     }
+
+    formData[1].dataset.errorVisible = false;
+    formData[1].dataset.error = "Veuillez entrer 2 caractères ou plus pour le champ du nom.";
+
+    return true;
 };
 
 //Email
-const validatedMail = () => {
-    email.onblur = () => {
-        formData[2].dataset.errorVisible = false;
-        formData[2].dataset.error = "";
-    };
+const validateMail = () => {
     //utilisation d'un regex afin d'avoir un email valide (qui contient @ . et un minimum de caractères avant et apres le dot)
     const validEmailRegex = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
     if (!email.value.match(validEmailRegex)) {
@@ -112,16 +105,13 @@ const validatedMail = () => {
         formData[2].dataset.error = "L'adresse email n'est pas valide";
         return false;
     } else {
+        formData[2].dataset.errorVisible = false;
         return true;
     }
 };
 
 //date de naissance
-const validatedBirthDate = () => {
-    birthdate.onblur = () => {
-        formData[3].dataset.errorVisible = false;
-        formData[3].dataset.error = "";
-    };
+const validateBirthDate = () => {
     const dateOfBirth = new Date(birthdate.value);
     const dateOfBirthWithoutTime = new Date(dateOfBirth.getFullYear(), dateOfBirth.getMonth(), dateOfBirth.getDate());
     const now = new Date();
@@ -144,11 +134,7 @@ const validatedBirthDate = () => {
 };
 
 //nombre de tournois
-const validatedQuantity = () => {
-    quantity.onblur = () => {
-        formData[4].dataset.errorVisible = false;
-        formData[4].dataset.error = "";
-    };
+const validateQuantity = () => {
     // Ici nous validons que l'input contient un entier avec 1 ou 2 chiffres uniquement
     // Un input type number peut contenir les caractères suivants: + - e (notation scientifique)
     const validNumberRegex = /^\d{1,2}$/;
@@ -162,7 +148,7 @@ const validatedQuantity = () => {
 };
 
 //quel tournois
-const validatedLocationRadio = () => {
+const validateLocationRadio = () => {
     // nous transformons la nodelist des radio buttons en un array afin d'itérer dessus
     if (!Array.from(locationRadios).some(radio => radio.checked)) {
         formData[5].dataset.errorVisible = true;
@@ -176,7 +162,7 @@ const validatedLocationRadio = () => {
 };
 
 //checkbox: nous vérifions que la checkbox obligatoire est bien coché
-const validatedCheckboxOne = () => {
+const validateCheckboxOne = () => {
     if (!checkBoxOne.checked) {
         formData[6].dataset.errorVisible = true;
         formData[6].dataset.error = "Vous devez accepter les conditions d'utilisation";
@@ -193,34 +179,30 @@ function validate(e) {
     e.preventDefault();
 
     // consition d'envoie: nous appellons chaque fonction qui valide les input
-    validatedFirstname();
-    validatedLastname();
-    validatedMail();
-    validatedBirthDate();
-    validatedQuantity();
-    validatedLocationRadio();
-    validatedCheckboxOne();
+    let formIsValid = validateFirstname();
+    formIsValid &= validateLastname();
+    formIsValid &= validateMail();
+    formIsValid &= validateBirthDate();
+    formIsValid &= validateQuantity();
+    formIsValid &= validateLocationRadio();
+    formIsValid &= validateCheckboxOne();
 
     //si toute les fonctions de validation sont à true, alors on valide le formulaire et on renvoie vers le message de validation
-    if (
-        validatedFirstname() &&
-        validatedLastname() &&
-        validatedMail() &&
-        validatedBirthDate() &&
-        validatedQuantity() &&
-        validatedLocationRadio() &&
-        validatedCheckboxOne()
-    ) {
-        btnSubmit.addEventListener("click", () => {
-            closeModal();
-            if (window.screen.width < 800) {
-                topNav.style.display = "block";
-            } else {
-                topNav.style.display = "none";
-            }
-            heroSection.style.display = "none";
-            footer.style.display = "none";
-            congrats.style.display = "block";
-        });
+    if (formIsValid) {
+        closeModal();
+        if (window.screen.width < 800) {
+            topNav.style.display = "block";
+        } else {
+            topNav.style.display = "none";
+        }
+        heroSection.style.display = "none";
+        footer.style.display = "none";
+        congrats.style.display = "block";
     }
 }
+
+firstName.addEventListener("blur", validateFirstname);
+lastName.addEventListener("blur", validateLastname);
+email.addEventListener("blur", validateMail);
+birthdate.addEventListener("blur", validateBirthDate);
+quantity.addEventListener("blur", validateQuantity);
