@@ -82,32 +82,14 @@ const validateField = (validation, fieldId, messageOverride) => {
 const validateFirstname = () => validateField(firstName.value && firstName.value.length >= 2, "first");
 
 //Nom
-const validateLastname = () => {
-    if (!lastName.value || lastName.value.length < 2) {
-        formData[1].dataset.errorVisible = true;
-        formData[1].dataset.error = "Veuillez entrer 2 caractères ou plus pour le champ du nom.";
-
-        return false;
-    }
-
-    formData[1].dataset.errorVisible = false;
-    formData[1].dataset.error = "Veuillez entrer 2 caractères ou plus pour le champ du nom.";
-
-    return true;
-};
+const validateLastname = () => validateField(lastName.value && lastName.value.length >= 2, "last");
 
 //Email
 const validateMail = () => {
     //utilisation d'un regex afin d'avoir un email valide (qui contient @ . et un minimum de caractères avant et apres le dot)
     const validEmailRegex = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-    if (!email.value.match(validEmailRegex)) {
-        formData[2].dataset.errorVisible = true;
-        formData[2].dataset.error = "L'adresse email n'est pas valide";
-        return false;
-    } else {
-        formData[2].dataset.errorVisible = false;
-        return true;
-    }
+
+    validateField(email.value.match(validEmailRegex), "email");
 };
 
 //date de naissance
@@ -119,18 +101,10 @@ const validateBirthDate = () => {
     const age = new Date(nowDateWithoutTime - dateOfBirthWithoutTime);
     const ageInYears = age.getFullYear() - 1970;
 
-    if (ageInYears < 16) {
-        formData[3].dataset.errorVisible = true;
-        formData[3].dataset.error = "Vous semblez trop jeune!";
-        return false;
-    }
-    if (!ageInYears) {
-        formData[3].dataset.errorVisible = true;
-        formData[3].dataset.error = "Veuillez entrer une date de naissance";
-        return false;
-    }
-
-    return true;
+    return (
+        validateField(!Number.isNaN(ageInYears), "birthdate", "Veuillez entrer une date de naissance") &&
+        validateField(ageInYears >= 16, "birthdate", "Vous êtes trop jeune")
+    );
 };
 
 //nombre de tournois
@@ -138,40 +112,20 @@ const validateQuantity = () => {
     // Ici nous validons que l'input contient un entier avec 1 ou 2 chiffres uniquement
     // Un input type number peut contenir les caractères suivants: + - e (notation scientifique)
     const validNumberRegex = /^\d{1,2}$/;
-    if (!quantity.value.match(validNumberRegex)) {
-        formData[4].dataset.errorVisible = true;
-        formData[4].dataset.error = "Veuillez entrer un nombre entre 0 et 99";
-        return false;
-    } else {
-        return true;
-    }
+    validateField(quantity.value.match(validNumberRegex), "quantity");
 };
 
 //quel tournois
 const validateLocationRadio = () => {
     // nous transformons la nodelist des radio buttons en un array afin d'itérer dessus
-    if (!Array.from(locationRadios).some(radio => radio.checked)) {
-        formData[5].dataset.errorVisible = true;
-        formData[5].dataset.error = "Veuillez selectionner une ville";
-        return false;
-    } else {
-        formData[5].dataset.errorVisible = false;
-        formData[5].dataset.error = "";
-        return true;
-    }
+    const validLocation = Array.from(locationRadios).some(radio => radio.checked);
+
+    validateField(validLocation, "location1");
 };
 
 //checkbox: nous vérifions que la checkbox obligatoire est bien coché
 const validateCheckboxOne = () => {
-    if (!checkBoxOne.checked) {
-        formData[6].dataset.errorVisible = true;
-        formData[6].dataset.error = "Vous devez accepter les conditions d'utilisation";
-        return false;
-    } else {
-        formData[6].dataset.errorVisible = false;
-        formData[6].dataset.error = "";
-        return true;
-    }
+    validateField(checkBoxOne.checked, "checkbox1");
 };
 
 // fonction qui va gérer la validation et l'envoie du fromulaire

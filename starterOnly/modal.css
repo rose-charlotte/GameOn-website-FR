@@ -220,15 +220,16 @@ input {
   font-size: 20px;
   height: 48px;
 }
+
 .formData[data-error]::after {
   content: attr(data-error);
-  font-size: 0.4em;
+  font-size: 10px;
   color: #e54858;
   display: block;
   margin-top: 7px;
   margin-bottom: 7px;
   text-align: right;
-  line-height: 0.3;
+  line-height: 142.6%;
   opacity: 0;
   transition: 0.3s;
 }
