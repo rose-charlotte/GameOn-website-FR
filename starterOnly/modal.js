@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 function editNav() {
     const myTopNav = document.getElementById("myTopnav");
     if (myTopNav.className === "topnav") {
@@ -26,14 +27,14 @@ const heroSection = document.querySelector(".hero-section");
 const topNav = document.querySelector(".topnav");
 const footer = document.querySelector("footer");
 
-// event
+// event listeners
 modalBtn.forEach(btn => btn.addEventListener("click", launchModal));
 closeBtn.addEventListener("click", closeModal);
 closeCongrats.addEventListener("click", closeCongratsModal);
 closeCongratsButton.addEventListener("click", closeCongratsModal);
 form.addEventListener("submit", onSubmit);
 
-// launch modal form
+// display the inscription form in a modal
 function launchModal() {
     if (window.screen.width < 800) {
         topNav.style.display = "block";
@@ -45,22 +46,35 @@ function launchModal() {
     modalbg.style.display = "block";
 }
 
-// Function to display the main page:
+// Function to display the main page
 function displayMainPage() {
     heroSection.style.display = "grid";
     topNav.style.display = "block";
     footer.style.display = "block";
 }
-// close modal form
+
+// close inscription form
 function closeModal() {
     modalbg.style.display = "none";
     displayMainPage();
 }
 
-// close modal inform inscription ok
+// close succesful inscription modal
 function closeCongratsModal() {
     congrats.style.display = "none";
     displayMainPage();
+}
+
+// displays the inscription succesful modal
+function displayCongratsModal() {
+    if (window.screen.width < 800) {
+        topNav.style.display = "block";
+    } else {
+        topNav.style.display = "none";
+    }
+    heroSection.style.display = "none";
+    footer.style.display = "none";
+    congrats.style.display = "block";
 }
 
 /**
@@ -75,11 +89,15 @@ function closeCongratsModal() {
 const validateField = (isValid, fieldId, messageOverride) => {
     let parentFormDataDiv;
 
-    // if browser does not support:has (firefox is the last one whiche does not support it, but it is working on it)
+    // if browser does not support :has css pseudo-class (firefox is the last one whiche does not support it, but the team is working on it)
+    // this is dangerous if the HTML structure changes a bit (adding an element as the parent of the field)
+    // https://connect.mozilla.org/t5/ideas/when-is-has-css-selector-going-to-be-fully-implemented-in/idi-p/23794
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=418039&_gl=1*3tdgmb*_ga*NzE3Mjk5NDQuMTY2MzA1Njk0Mg..*_ga_R3H4BDP5J2*MTY5MzQwOTU5NS4xLjAuMTY5MzQwOTU5NS4wLjAuMA..#c62
+    // https://developer.mozilla.org/fr/docs/Web/CSS/:has
     if (navigator.userAgent.includes("Firefox")) {
         parentFormDataDiv = document.querySelector(`#${fieldId}`).parentElement;
     } else {
-        // for all aother browser:
+        // for all other browsers
         parentFormDataDiv = document.querySelector(`.formData:has(#${fieldId})`);
     }
 
@@ -92,24 +110,35 @@ const validateField = (isValid, fieldId, messageOverride) => {
     return isValid;
 };
 
-// FisrtName isValid
-const isValidateFirstname = () => validateField(firstName.value && firstName.value.length >= 2, "first");
+// validate first name
+const validateFirstname = () => validateField(firstName.value && firstName.value.length >= 2, "first");
 
-// LastName isValid
-const isValidateLastname = () => validateField(lastName.value && lastName.value.length >= 2, "last");
+// validate last name
+const validateLastname = () => validateField(lastName.value && lastName.value.length >= 2, "last");
 
-// Email isValid
-// Using a regex in prder to have a valid email
+// validate email
+// Using a regex in order to have a valid email
+// 1. any alphanum or - or .
+// 2. @
+// 3. any alphanum or - or .
+// 4. .
+// 5. any alphanum or -
+// eslint-disable-next-line no-useless-escape
 const validEmailRegex = /^[\w-\.]+@[\w-\.]+\.[\w-]+$/;
 
-const isValidateMail = () => validateField(validEmailRegex.test(email.value), "email");
+const validateEmail = () => validateField(validEmailRegex.test(email.value), "email");
 
-// birthdate isValid
-const isValidateBirthDate = () => {
+// validate birthdate
+const validateBirthDate = () => {
+    // get date of birth without time
     const dateOfBirth = new Date(birthdate.value);
     const dateOfBirthWithoutTime = new Date(dateOfBirth.getFullYear(), dateOfBirth.getMonth(), dateOfBirth.getDate());
+
+    // get current date without time
     const now = new Date();
     const nowDateWithoutTime = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+
+    // substract previous values and compare the year with 1970 (start of epoch time)
     const age = new Date(nowDateWithoutTime - dateOfBirthWithoutTime);
     const ageInYears = age.getFullYear() - 1970;
 
@@ -119,56 +148,48 @@ const isValidateBirthDate = () => {
     );
 };
 
-// Tournaments number isValid
+// validate number of tournaments
 // Here we are validating that the input holds only an integer with 1 or 2 numbers only
 // An input type number can hold different caracters like + - e (scientific notaion)
 const validNumberRegex = /^\d{1,2}$/;
 
-const isValidateQuantity = () => validateField(validNumberRegex.test(quantity.value), "quantity");
+const validateQuantity = () => validateField(validNumberRegex.test(quantity.value), "quantity");
 
-// Witch tournaments
-// We transform the radio buttons nodelist into an array in order to iterate over it
-
-const isValidateLocationRadio = () =>
+// validate the desired location for the next tournament
+const validateLocationRadio = () =>
     validateField(
+        // we transform the NodeList in locationRadios to an array so we can use the some method
         Array.from(locationRadios).some(radio => radio.checked),
         "location1"
     );
 
-// Checkbox: we check if the requiered checkbox is checked
-const isValidateCheckboxOne = () => validateField(checkBoxOne.checked, "checkbox1");
+// validate that the user agreed to the terms of use
+const validateCheckboxOne = () => validateField(checkBoxOne.checked, "checkbox1");
 
-// We put a listener "blur" on each input in order to check if they are good in order to show or not the error message to the user
-firstName.addEventListener("blur", isValidateFirstname);
-lastName.addEventListener("blur", isValidateLastname);
-email.addEventListener("blur", isValidateMail);
-birthdate.addEventListener("blur", isValidateBirthDate);
-quantity.addEventListener("blur", isValidateQuantity);
+// Adding a blur listener allows for validation of the field when the user leaves it
+firstName.addEventListener("blur", validateFirstname);
+lastName.addEventListener("blur", validateLastname);
+email.addEventListener("blur", validateEmail);
+birthdate.addEventListener("blur", validateBirthDate);
+quantity.addEventListener("blur", validateQuantity);
 
-// Function that is going to check the isValid and sumit the form.
+// function taking care of the form validation and submission
 function onSubmit(e) {
     e.preventDefault();
 
-    // Before submit we call all validating functions for each input
+    // Before submitting we call all validation functions for each input and store the boolean result in formIsValid
+    // using this format (&=) allows to still run each function and thus display every error to the user in one go
+    let formIsValid = validateFirstname();
+    formIsValid &= validateLastname();
+    formIsValid &= validateEmail();
+    formIsValid &= validateBirthDate();
+    formIsValid &= validateQuantity();
+    formIsValid &= validateLocationRadio();
+    formIsValid &= validateCheckboxOne();
 
-    let formIsValid = isValidateFirstname();
-    formIsValid &= isValidateLastname();
-    formIsValid &= isValidateMail();
-    formIsValid &= isValidateBirthDate();
-    formIsValid &= isValidateQuantity();
-    formIsValid &= isValidateLocationRadio();
-    formIsValid &= isValidateCheckboxOne();
-
-    // If all validating functions return true, then we submit the form and send the user to a isValid message.
+    // If all validation functions return true, then we submit the form and display to the user a success message.
     if (formIsValid) {
         closeModal();
-        if (window.screen.width < 800) {
-            topNav.style.display = "block";
-        } else {
-            topNav.style.display = "none";
-        }
-        heroSection.style.display = "none";
-        footer.style.display = "none";
-        congrats.style.display = "block";
+        displayCongratsModal();
     }
 }

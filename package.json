@@ -1,0 +1,19 @@
+{
+  "name": "gameon-website-fr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rose-charlotte/GameOn-website-FR.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rose-charlotte/GameOn-website-FR/issues"
+  },
+  "homepage": "https://github.com/rose-charlotte/GameOn-website-FR#readme"
+}
