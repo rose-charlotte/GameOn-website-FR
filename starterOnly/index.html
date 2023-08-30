@@ -14,7 +14,7 @@
     <body>
         <div class="topnav" id="myTopnav">
             <div class="header-logo">
-                <img alt="logo" src="Logo.png" width="auto" height="auto" />
+                <img alt="logo" src="Logo.png" />
             </div>
             <div class="main-navbar">
                 <a href="#" class="active"><span>Accueil</span></a>
@@ -27,7 +27,7 @@
                 </a>
             </div>
         </div>
-        <!-- </div> -->
+
         <main>
             <div class="hero-section">
                 <div class="hero-content">
@@ -54,10 +54,8 @@
                         <form name="reserve" action="index.html" method="get" id="form">
                             <div
                                 class="formData"
-                                type="form"
                                 data-error="Veuillez entrer 2 caractères ou plus pour le champ du prénom."
                                 data-error-visible="false"
-                                ;
                             >
                                 <label for="first">Prénom</label><br />
                                 <input class="text-control" type="text" id="first" name="first" />
@@ -182,7 +180,7 @@
                                 data-error-visible="false"
                             >
                                 <input class="checkbox-input" type="checkbox" id="checkbox1" checked />
-                                <label class="checkbox2-label" for="checkbox1" required>
+                                <label class="checkbox2-label" for="checkbox1">
                                     <span class="checkbox-icon"></span>
                                     J'ai lu et accepté les conditions d'utilisation.
                                 </label>
@@ -194,7 +192,7 @@
                                 </label>
                                 <br />
                             </div>
-                            <input class="btn-submit" type="submit" class="button" value="C'est parti" />
+                            <input class="btn-submit button" type="submit" value="C'est parti" />
                         </form>
                     </div>
                 </div>
