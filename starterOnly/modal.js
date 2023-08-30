@@ -10,7 +10,6 @@ function editNav() {
 // DOM Elements
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
-const formData = document.querySelectorAll(".formData");
 const closeBtn = document.querySelector(".close");
 const form = document.querySelector("#form");
 const congrats = document.querySelector(".bground-congrats");
@@ -23,7 +22,6 @@ const birthdate = document.querySelector("#birthdate");
 const quantity = document.querySelector("#quantity");
 const locationRadios = document.querySelectorAll("input[name='location']");
 const checkBoxOne = document.querySelector("#checkbox1");
-const btnSubmit = document.querySelector(".btn-submit");
 const heroSection = document.querySelector(".hero-section");
 const topNav = document.querySelector(".topnav");
 const footer = document.querySelector("footer");
@@ -33,7 +31,7 @@ modalBtn.forEach(btn => btn.addEventListener("click", launchModal));
 closeBtn.addEventListener("click", closeModal);
 closeCongrats.addEventListener("click", closeCongratsModal);
 closeCongratsButton.addEventListener("click", closeCongratsModal);
-form.addEventListener("submit", validate);
+form.addEventListener("submit", onSubmit);
 
 // launch modal form
 function launchModal() {
@@ -63,33 +61,44 @@ function closeCongratsModal() {
     footer.style.display = "block";
 }
 
-// validation de chaque input:
-// fonction qui permet de faire apparaitre les messages d'erreurs reprise pour chaque validation d'input:
+// validation of each input:
+// function to make appear error messages used by all input validations:
+
 const validateField = (validation, fieldId, messageOverride) => {
     const isValid = validation;
 
-    if (messageOverride) {
-        document.querySelector(`.formData:has(#${fieldId})`).dataset.error = messageOverride;
+    let parentFormDataDiv;
+
+    // if browser does not support:has (firefox is the last one whiche does not support it, but it is working on it)
+    if (navigator.userAgent.includes("Firefox")) {
+        parentFormDataDiv = document.querySelector(`#${fieldId}`).parentElement;
+    } else {
+        // for all aother browser:
+        parentFormDataDiv = document.querySelector(`.formData:has(#${fieldId})`);
     }
 
-    document.querySelector(`.formData:has(#${fieldId})`).dataset.errorVisible = !isValid;
+    if (messageOverride) {
+        parentFormDataDiv.dataset.error = messageOverride;
+    }
+
+    parentFormDataDiv.dataset.errorVisible = !isValid;
+
     return isValid;
 };
 
-// Prénom
+// FisrtName validation
 const validateFirstname = () => validateField(firstName.value && firstName.value.length >= 2, "first");
 
-// Nom
+// LastName validation
 const validateLastname = () => validateField(lastName.value && lastName.value.length >= 2, "last");
 
-// Email
-// utilisation d'une regex afin d'avoir un email valide
-// Caractères alphanumériques, underscore, tiret et point suivi d'un arobase puis caractères alphanumériques, underscore, tiret et point puis un point suivi de caractères alphanumériques, underscore, tiret et point
+// Email validation
+// Using a regex in prder to have a valid email
 const validEmailRegex = /^[\w-\.]+@[\w-\.]+\.[\w-]+$/;
 
 const validateMail = () => validateField(validEmailRegex.test(email.value), "email");
 
-// date de naissance
+// birthdate validation
 const validateBirthDate = () => {
     const dateOfBirth = new Date(birthdate.value);
     const dateOfBirthWithoutTime = new Date(dateOfBirth.getFullYear(), dateOfBirth.getMonth(), dateOfBirth.getDate());
@@ -104,36 +113,37 @@ const validateBirthDate = () => {
     );
 };
 
-// nombre de tournois
-// Ici nous validons que l'input contient un entier avec 1 ou 2 chiffres uniquement
-// Un input type number peut contenir les caractères suivants: + - e (notation scientifique)
+// Tournaments number validation
+// Here we are validating that the input holds only an integer with 1 or 2 numbers only
+// An input type number can hold different caracters like + - e (scientific notaion)
 const validNumberRegex = /^\d{1,2}$/;
 
 const validateQuantity = () => validateField(validNumberRegex.test(quantity.value), "quantity");
 
-// quel tournois
-// nous transformons la nodelist des radio buttons en un array afin d'itérer dessus
+// Witch tournaments
+// We transform the radio buttons nodelist into an array in order to iterate over it
+
 const validateLocationRadio = () =>
     validateField(
         Array.from(locationRadios).some(radio => radio.checked),
         "location1"
     );
 
-// checkbox: nous vérifions que la checkbox obligatoire est bien coché
+// Checkbox: we check if the requiered checkbox is checked
 const validateCheckboxOne = () => validateField(checkBoxOne.checked, "checkbox1");
 
-// On accroche un listener "blur" sur les input qui permet de vérifier au fure et à mesure qu'ils sont valides afin d'afficher ou de cacher l'erreur pour l'utilisateur.
+// We put a listener "blur" on each input in order to check if they are good in order to show or not the error message to the user
 firstName.addEventListener("blur", validateFirstname);
 lastName.addEventListener("blur", validateLastname);
 email.addEventListener("blur", validateMail);
 birthdate.addEventListener("blur", validateBirthDate);
 quantity.addEventListener("blur", validateQuantity);
 
-// fonction qui va gérer la validation et l'envoie du fromulaire
-function validate(e) {
+// Function that is going to check the validation and sumit the form.
+function onSubmit(e) {
     e.preventDefault();
 
-    // condition d'envoie: nous appellons chaque fonction qui valide les input
+    // Before submit we call all validating functions for each input
 
     let formIsValid = validateFirstname();
     formIsValid &= validateLastname();
@@ -143,7 +153,7 @@ function validate(e) {
     formIsValid &= validateLocationRadio();
     formIsValid &= validateCheckboxOne();
 
-    // si toute les fonctions de validation sont à true, alors on valide le formulaire et on renvoie vers le message de validation
+    // If all validating functions return true, then we submit the form and send the user to a validation message.
     if (formIsValid) {
         closeModal();
         if (window.screen.width < 800) {
