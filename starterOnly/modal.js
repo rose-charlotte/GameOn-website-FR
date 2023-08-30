@@ -1,9 +1,9 @@
 function editNav() {
-    var x = document.getElementById("myTopnav");
-    if (x.className === "topnav") {
-        x.className += " responsive";
+    const myTopNav = document.getElementById("myTopnav");
+    if (myTopNav.className === "topnav") {
+        myTopNav.className += " responsive";
     } else {
-        x.className = "topnav";
+        myTopNav.className = "topnav";
     }
 }
 
@@ -92,19 +92,19 @@ const validateField = (validation, fieldId, messageOverride) => {
 };
 
 // FisrtName validation
-const validateFirstname = () => validateField(firstName.value && firstName.value.length >= 2, "first");
+const isValidateFirstname = () => validateField(firstName.value && firstName.value.length >= 2, "first");
 
 // LastName validation
-const validateLastname = () => validateField(lastName.value && lastName.value.length >= 2, "last");
+const isValidateLastname = () => validateField(lastName.value && lastName.value.length >= 2, "last");
 
 // Email validation
 // Using a regex in prder to have a valid email
 const validEmailRegex = /^[\w-\.]+@[\w-\.]+\.[\w-]+$/;
 
-const validateMail = () => validateField(validEmailRegex.test(email.value), "email");
+const isValidateMail = () => validateField(validEmailRegex.test(email.value), "email");
 
 // birthdate validation
-const validateBirthDate = () => {
+const isValidateBirthDate = () => {
     const dateOfBirth = new Date(birthdate.value);
     const dateOfBirthWithoutTime = new Date(dateOfBirth.getFullYear(), dateOfBirth.getMonth(), dateOfBirth.getDate());
     const now = new Date();
@@ -123,26 +123,26 @@ const validateBirthDate = () => {
 // An input type number can hold different caracters like + - e (scientific notaion)
 const validNumberRegex = /^\d{1,2}$/;
 
-const validateQuantity = () => validateField(validNumberRegex.test(quantity.value), "quantity");
+const isValidateQuantity = () => validateField(validNumberRegex.test(quantity.value), "quantity");
 
 // Witch tournaments
 // We transform the radio buttons nodelist into an array in order to iterate over it
 
-const validateLocationRadio = () =>
+const isValidateLocationRadio = () =>
     validateField(
         Array.from(locationRadios).some(radio => radio.checked),
         "location1"
     );
 
 // Checkbox: we check if the requiered checkbox is checked
-const validateCheckboxOne = () => validateField(checkBoxOne.checked, "checkbox1");
+const isValidateCheckboxOne = () => validateField(checkBoxOne.checked, "checkbox1");
 
 // We put a listener "blur" on each input in order to check if they are good in order to show or not the error message to the user
-firstName.addEventListener("blur", validateFirstname);
-lastName.addEventListener("blur", validateLastname);
-email.addEventListener("blur", validateMail);
-birthdate.addEventListener("blur", validateBirthDate);
-quantity.addEventListener("blur", validateQuantity);
+firstName.addEventListener("blur", isValidateFirstname);
+lastName.addEventListener("blur", isValidateLastname);
+email.addEventListener("blur", isValidateMail);
+birthdate.addEventListener("blur", isValidateBirthDate);
+quantity.addEventListener("blur", isValidateQuantity);
 
 // Function that is going to check the validation and sumit the form.
 function onSubmit(e) {
@@ -150,13 +150,13 @@ function onSubmit(e) {
 
     // Before submit we call all validating functions for each input
 
-    let formIsValid = validateFirstname();
-    formIsValid &= validateLastname();
-    formIsValid &= validateMail();
-    formIsValid &= validateBirthDate();
-    formIsValid &= validateQuantity();
-    formIsValid &= validateLocationRadio();
-    formIsValid &= validateCheckboxOne();
+    let formIsValid = isValidateFirstname();
+    formIsValid &= isValidateLastname();
+    formIsValid &= isValidateMail();
+    formIsValid &= isValidateBirthDate();
+    formIsValid &= isValidateQuantity();
+    formIsValid &= isValidateLocationRadio();
+    formIsValid &= isValidateCheckboxOne();
 
     // If all validating functions return true, then we submit the form and send the user to a validation message.
     if (formIsValid) {
