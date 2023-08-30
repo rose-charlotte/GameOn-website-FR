@@ -45,20 +45,22 @@ function launchModal() {
     modalbg.style.display = "block";
 }
 
-// close modal form
-function closeModal() {
+// Function to display the main page:
+function displayMainPage() {
     heroSection.style.display = "grid";
     topNav.style.display = "block";
     footer.style.display = "block";
+}
+// close modal form
+function closeModal() {
     modalbg.style.display = "none";
+    displayMainPage();
 }
 
 // close modal inform inscription ok
 function closeCongratsModal() {
     congrats.style.display = "none";
-    heroSection.style.display = "grid";
-    topNav.style.display = "block";
-    footer.style.display = "block";
+    displayMainPage();
 }
 
 /**
