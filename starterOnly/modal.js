@@ -64,16 +64,15 @@ function closeCongratsModal() {
 }
 
 /**
- * validation of each input:
- * function to make appear error messages used by all input validations:
- * @param {boolean} validation
- * @param {string} fieldId
- * @param {string} messageOverride
+ * Validation of each input:
+ * function to show or hide error messages based on a condition.
+ * it can also override the error message.
+ * @param {boolean} isValid determines whether we should show or hide the error message.
+ * @param {string} fieldId id of the field that is the target of this validation.
+ * @param {string} [messageOverride] if defined, will replace the actual error message in HTML.
  * @returns {boolean}
  */
-const validateField = (validation, fieldId, messageOverride) => {
-    const isValid = validation;
-
+const validateField = (isValid, fieldId, messageOverride) => {
     let parentFormDataDiv;
 
     // if browser does not support:has (firefox is the last one whiche does not support it, but it is working on it)
@@ -93,19 +92,19 @@ const validateField = (validation, fieldId, messageOverride) => {
     return isValid;
 };
 
-// FisrtName validation
+// FisrtName isValid
 const isValidateFirstname = () => validateField(firstName.value && firstName.value.length >= 2, "first");
 
-// LastName validation
+// LastName isValid
 const isValidateLastname = () => validateField(lastName.value && lastName.value.length >= 2, "last");
 
-// Email validation
+// Email isValid
 // Using a regex in prder to have a valid email
 const validEmailRegex = /^[\w-\.]+@[\w-\.]+\.[\w-]+$/;
 
 const isValidateMail = () => validateField(validEmailRegex.test(email.value), "email");
 
-// birthdate validation
+// birthdate isValid
 const isValidateBirthDate = () => {
     const dateOfBirth = new Date(birthdate.value);
     const dateOfBirthWithoutTime = new Date(dateOfBirth.getFullYear(), dateOfBirth.getMonth(), dateOfBirth.getDate());
@@ -120,7 +119,7 @@ const isValidateBirthDate = () => {
     );
 };
 
-// Tournaments number validation
+// Tournaments number isValid
 // Here we are validating that the input holds only an integer with 1 or 2 numbers only
 // An input type number can hold different caracters like + - e (scientific notaion)
 const validNumberRegex = /^\d{1,2}$/;
@@ -146,7 +145,7 @@ email.addEventListener("blur", isValidateMail);
 birthdate.addEventListener("blur", isValidateBirthDate);
 quantity.addEventListener("blur", isValidateQuantity);
 
-// Function that is going to check the validation and sumit the form.
+// Function that is going to check the isValid and sumit the form.
 function onSubmit(e) {
     e.preventDefault();
 
@@ -160,7 +159,7 @@ function onSubmit(e) {
     formIsValid &= isValidateLocationRadio();
     formIsValid &= isValidateCheckboxOne();
 
-    // If all validating functions return true, then we submit the form and send the user to a validation message.
+    // If all validating functions return true, then we submit the form and send the user to a isValid message.
     if (formIsValid) {
         closeModal();
         if (window.screen.width < 800) {
