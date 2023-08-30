@@ -61,9 +61,14 @@ function closeCongratsModal() {
     footer.style.display = "block";
 }
 
-// validation of each input:
-// function to make appear error messages used by all input validations:
-
+/**
+ * validation of each input:
+ * function to make appear error messages used by all input validations:
+ * @param {boolean} validation
+ * @param {string} fieldId
+ * @param {string} messageOverride
+ * @returns {boolean}
+ */
 const validateField = (validation, fieldId, messageOverride) => {
     const isValid = validation;
 
